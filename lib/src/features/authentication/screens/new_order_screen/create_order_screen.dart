@@ -34,7 +34,7 @@ class CreateOrderScreen extends StatelessWidget {
           )
         ],
       ),
-      drawer: const DrawerWidget(),
+      drawer:  DrawerWidget(),
       body: const TabBarClass(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const FloatingButtonWidget(),

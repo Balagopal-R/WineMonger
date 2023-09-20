@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wine_monger/src/constants/image_strings.dart';
+import 'package:wine_monger/src/features/authentication/screens/login_screen/login_screen.dart';
+import '../managers/local_db/wm_shared_preference.dart';
 
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({super.key});
+  DrawerWidget({super.key});
+
+  final logOut = WMSharedPreference().logOut();
+  // final adminLevel = WMSharedPreference().getUserLevel();
 
   @override
   Widget build(BuildContext context) {
+    // return FutureBuilder<String?>(
+    //     future: WMSharedPreference().getUserName(),
+    //     builder: (context, snapshot) {
     return SafeArea(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 2 / 3,
@@ -19,13 +28,34 @@ class DrawerWidget extends StatelessWidget {
                     height: 20,
                   ),
                   ListTile(
-                    title: Text("UserName",style: TextStyle(fontSize: 17,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w600),),
-                    subtitle: Text("Admin"),
-                    leading: 
-                    // Image(image: AssetImage(kdrawerUserImage)),
-                    SizedBox(
+                    title: FutureBuilder<String?>(
+                      future: WMSharedPreference().getUserName(),
+                      builder: (context, snapshot) {
+                        print('sanpshot---${snapshot.data}');
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          // Return a loading indicator if the data is still being fetched.
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Handle error case
+                          return Text('Error: ${snapshot.error}');
+                        } else if (snapshot.hasData) {
+                          // Use the data if available
+                          return Text('${snapshot.data}');
+                        } else {
+                          // Handle the case where there is no data
+                          return Text('No User Name');
+                        }
+                      },
+                    ),
+                    subtitle: FutureBuilder<String?>(
+                        future: WMSharedPreference().getUserLevel(),
+                        builder: (context, snapshot) {
+                          return Text(snapshot.data.toString());
+                        }),
+                    leading:
+                        // Image(image: AssetImage(kdrawerUserImage)),
+                        SizedBox(
                       height: 100,
                       width: 50,
                       child: Image(image: AssetImage(kdrawerUserImage)),
@@ -71,18 +101,21 @@ class DrawerWidget extends StatelessWidget {
                 ListTileWidgets(
                     text: "imports",
                     myImage: Image.asset(kdrawerImports),
-                    ontap: () {}
-                    ),
+                    ontap: () {}),
                 ListTileWidgets(
                     text: "Logout",
                     myImage: Image.asset(kdrawerLogout),
-                    ontap: () {})
+                    ontap: () {
+                      logOut;
+                      Get.off(const LoginScreen());
+                    })
               ],
             ),
           ),
         ),
       ),
     );
+    // });
   }
 }
 

@@ -36,8 +36,8 @@ class DashBoardScreen extends StatelessWidget {
           )
         ],
       ),
-      drawer: const DrawerWidget(),
-      body: const DashBoardGrid(),
+      drawer: DrawerWidget(),
+      body: DashBoardGrid(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const FloatingButtonWidget(),
       bottomNavigationBar: const BottomNavigBar(),

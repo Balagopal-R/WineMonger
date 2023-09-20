@@ -24,8 +24,6 @@ class LoginController extends GetxController {
     var headers = {'Content-Type': 'application/json'};
     var responseBody;
 
-    
-
     try {
       var url = Uri.parse("http://winemonger.nintriva.com//api/login");
 
@@ -38,8 +36,11 @@ class LoginController extends GetxController {
         responseBody = LoginModel.fromJson(json);
 
         var userLevel= responseBody.userLevel;
+        print(userLevel);
         var apiKey= responseBody.apiKey;
+        print(apiKey);
         var name = responseBody.firstname;
+        print(name);
 
         
         

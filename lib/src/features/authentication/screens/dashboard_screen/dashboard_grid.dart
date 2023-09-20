@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:wine_monger/src/constants/image_strings.dart';
+import 'package:get/get.dart';
+import 'package:wine_monger/src/features/authentication/controllers/order_screen_controller.dart';
+import '../../controllers/manufactures_controller.dart';
+import '../../controllers/reservation_screen_controller.dart';
+import '../../controllers/tasting_screen_controller.dart';
 
+// ignore: must_be_immutable
 class DashBoardGrid extends StatelessWidget {
-  const DashBoardGrid({super.key});
+  DashBoardGrid({super.key});
+
+  OrderScreenController orderController = Get.put(OrderScreenController());
+  TastingScreenController tastingController = Get.put(TastingScreenController());
+  ReservationScreenController reservationController = Get.put(ReservationScreenController());
+  ManufactureScreenController manufacturerController = Get.put(ManufactureScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +27,41 @@ class DashBoardGrid extends StatelessWidget {
   crossAxisCount: 2,
   children: <Widget>[
 
-    GridViewWidget(
-      data: "Orders",
-      gridImage: Image.asset(kdashOrders)),
+    GestureDetector(
+      onTap: () {
+        orderController.fetchOrderData();
+      },
+      child: GridViewWidget(
+        data: "Orders",
+        gridImage: Image.asset(kdashOrders)),
+    ),
 
-      GridViewWidget(
-      data: "Tastings",
-      gridImage: Image.asset(kdashTastings)),
+      GestureDetector(
+        onTap: (){
+          tastingController.fetchTastingsData();
+        },
+        child: GridViewWidget(
+        data: "Tastings",
+        gridImage: Image.asset(kdashTastings)),
+      ),
 
-       GridViewWidget(
-      data: "Reservations",
-      gridImage: Image.asset(kdashReservations)),
+       GestureDetector(
+         onTap: () {
+           reservationController.fetchReservstionData();
+         },
+         child: GridViewWidget(
+             data: "Reservations",
+             gridImage: Image.asset(kdashReservations)),
+       ),
 
-      GridViewWidget(
-      data: "Manufactures",
-      gridImage: Image.asset(kdashManufactures)),
+      GestureDetector(
+        onTap: () {
+          manufacturerController.fetchManufacturesData();
+        },
+        child: GridViewWidget(
+        data: "Manufactures",
+        gridImage: Image.asset(kdashManufactures)),
+      ),
 
       GridViewWidget(
       data: "Sales",
